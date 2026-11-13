@@ -1,13 +1,44 @@
-# Cut Review
+# Cut Review: Frame.io comments and client notes as Final Cut Pro to-do markers
 
-Client notes and Frame.io comments in as Final Cut Pro to-do markers. Then compare two FCPXML exports of the timeline on one page: what changed, and which notes the recut touched, whether you or an agent made the edit.
+**Cut Review is a free, open source command line tool and MCP server for Final Cut Pro.** It writes client notes and Frame.io comment exports into your project's FCPXML as to-do markers on the clips they are about. After the recut it compares two FCPXML exports and shows, on one page, what changed and which notes the recut touched, whether you or an AI agent made the edit.
+
+[![PyPI](https://img.shields.io/pypi/v/cutreview.svg)](https://pypi.org/project/cutreview/)
+[![Python](https://img.shields.io/pypi/pyversions/cutreview.svg)](https://pypi.org/project/cutreview/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-black.svg)](https://github.com/DareDev256/cutreview/blob/main/LICENSE)
+
+[![The Cut Review status page: six notes, three done, four touched, and the two lists where the editor's tick and the cut disagree](https://raw.githubusercontent.com/DareDev256/cutreview/v0.1.0/docs/screenshots/2026-11-12_status-1440-dark-fold.png)](https://daredev256.github.io/cutreview/)
+
+*The status page from the demo round, on synthesized test media. Website: [daredev256.github.io/cutreview](https://daredev256.github.io/cutreview/)*
 
 ## What this is not
 
 - **Not a review platform.** There is no server, no account and no upload. Every page is one HTML file on your disk with nothing to load.
 - **It says "touched", never "addressed".** Touched means the cut changed near a note. Whether the change is what the reviewer asked for is your call, and the page never claims otherwise.
-- **No AI in the notes path.** Notes are read by rules you can read in `src/cutreview/notes.py`. A note with no timecode is listed as not placed; it is never given a time. A line that cannot be read is listed with the reason; it is never dropped.
+- **No AI in the notes path.** Notes are read by rules you can read in [`src/cutreview/notes.py`](https://github.com/DareDev256/cutreview/blob/main/src/cutreview/notes.py). A note with no timecode is listed as not placed; it is never given a time. A line that cannot be read is listed with the reason; it is never dropped.
 - **Not an editor.** It writes markers and nothing else. It never changes a clip, and it never opens or drives Final Cut.
+
+## Quick start (60 seconds)
+
+You need [uv](https://docs.astral.sh/uv/) (`brew install uv`), Python 3.10 or newer, and an XML export of your project from Final Cut Pro (**File > Export XML**).
+
+1. Write your notes, one per line, timecode first, in `notes.txt`:
+   ```
+   00:00:05:00 Too long on B, cut it down
+   00:00:13:00 Drone could breathe, slow it down
+   ```
+2. Put them on the cut as to-do markers:
+   ```
+   uvx cutreview notes cut.fcpxmld notes.txt
+   ```
+   This writes `cut_notes.fcpxmld` and prints where each note landed. In Final Cut, **File > Import > XML** and open the Timeline Index (Shift-Command-2) to see the to-dos.
+3. Recut. Tick each to-do you dealt with. **File > Export XML** again, say as `cut_v2.fcpxmld`.
+4. See which notes the recut touched, and what changed:
+   ```
+   uvx cutreview status cut_notes.fcpxmld cut_v2.fcpxmld -o status.html
+   uvx cutreview diff cut_notes.fcpxmld cut_v2.fcpxmld -o review.html
+   ```
+
+`ffmpeg` on the path adds before and after frames (optional). Final Cut Pro on the same Mac lets every write be checked against Apple's own FCPXML DTD (optional; without it the check says it did not run).
 
 ## What it does
 
@@ -28,27 +59,55 @@ Two more commands work on any two exports, notes or not:
 - **`cutreview diff old.fcpxml new.fcpxml -o review.html`**: the change page. Every clip added, removed, trimmed, moved, retimed or adjusted, and every transition added or removed, with a strip of the timeline and before and after frames when the media is on this machine. A clip that only slid because something before it got shorter is counted and not listed.
 - **`cutreview blame old.fcpxml new.fcpxml`**: the same page, with each change attributed to the [fcp-mcp-server](https://github.com/DareDev256/fcp-mcp-server) tool call that made it, read from that server's write journal. A change the journal does not explain reads "not in the journal".
 
-![The status page at 390 wide](docs/screenshots/2026-11-12_status-390-dark-fold.png)
+Screens from the demo round (synthesized media): [change page](https://raw.githubusercontent.com/DareDev256/cutreview/v0.1.0/docs/screenshots/2026-11-12_review-1440-dark.png), [status page](https://raw.githubusercontent.com/DareDev256/cutreview/v0.1.0/docs/screenshots/2026-11-12_status-1440-dark.png), [status page on a phone](https://raw.githubusercontent.com/DareDev256/cutreview/v0.1.0/docs/screenshots/2026-11-12_status-390-dark.png), [blame page on a phone](https://raw.githubusercontent.com/DareDev256/cutreview/v0.1.0/docs/screenshots/2026-11-12_blame-390-dark.png), [light mode](https://raw.githubusercontent.com/DareDev256/cutreview/v0.1.0/docs/screenshots/2026-11-12_review-1440-light.png).
 
-Screens from the demo round (synthesized media): [change page](docs/screenshots/2026-11-12_review-1440-dark.png), [status page](docs/screenshots/2026-11-12_status-1440-dark.png), [blame page on a phone](docs/screenshots/2026-11-12_blame-390-dark.png), [light mode](docs/screenshots/2026-11-12_review-1440-light.png).
+## FAQ
 
-## Install
+### How do I get Frame.io comments into Final Cut Pro?
 
-Python 3.10 or newer, macOS or Linux. `ffmpeg` on the path for frames (optional). Final Cut Pro on the same Mac for the DTD check (optional; without it the check says it did not run).
+Export the comments from Frame.io as a CSV (in Frame.io V4: the three-dot menu in the Comments tab), then run `uvx cutreview notes cut.fcpxmld comments.csv` and import the result with **File > Import > XML**. Cut Review finds a Frame.io export by its `Commenter` and `Comment` columns, writes each comment as a to-do marker on the clip under it, folds replies into the comment they answer, flags drawn-on comments, and writes comments already marked complete as completed markers.
 
-In a clone of this repo:
+### Does it work with Frame.io V4?
 
-```
-uvx --from . cutreview --help
-```
+Frame.io documents V4's comment export as CSV or plain text but publishes no column list. Cut Review reads the columns by name, never by position, and has been tested on a file rebuilt from the published V3-era names, not yet on a real V4 export. If your export does not read, [open an issue](https://github.com/DareDev256/cutreview/issues) with its header row.
 
-or, to work on it:
+### How do I import a CSV of notes as Final Cut Pro markers?
 
-```
-uv venv && uv pip install -e ".[dev]"
-.venv/bin/cutreview --help
-.venv/bin/python -m pytest
-```
+Any CSV with a header row works: Cut Review finds the time column by name (`timecode`, `time`, `tc`, `in`, `start`...) and the note column likewise (`note`, `comment`, `text`, `feedback`...), with an author column if there is one. `uvx cutreview notes cut.fcpxmld notes.csv` writes them as to-do markers. A row with no time is listed as not placed, never guessed.
+
+### How do I compare two FCPXML files and see what changed between two Final Cut exports?
+
+`uvx cutreview diff cut_v1.fcpxmld cut_v2.fcpxmld -o review.html` writes one HTML page listing every clip added, removed, trimmed, moved, retimed or adjusted, and every transition change, with a timeline strip and before and after frames. Clips are matched by source material, not by name, so a ripple, a head trim or a cut built on connected clips reads correctly.
+
+### How do I check what an AI agent changed in my edit?
+
+Run `cutreview diff` on the export before and after the agent worked. If the agent edited through [fcp-mcp-server](https://github.com/DareDev256/fcp-mcp-server), `uvx cutreview blame before.fcpxml after.fcpxml` names the tool call behind each change from that server's write journal, and marks anything done by hand as "not in the journal". If your notes were on the cut, `cutreview status` shows which of them the agent's changes touched.
+
+### How do I track which client notes the recut dealt with?
+
+Put the notes on the cut as to-do markers with `cutreview notes`, tick them in Final Cut as you work, then run `cutreview status` on the next export. Each note comes back done or open (your tick) and touched or untouched (whether the cut changed within a second of it), and the page starts with the notes where those two disagree.
+
+### Is Cut Review a Frame.io alternative?
+
+No. It does not host video or collect comments from clients. It works on the notes you already get, from Frame.io, email, texts or a call, and on Final Cut's own XML exports.
+
+### Is there an MCP server for Final Cut Pro?
+
+Yes: [fcp-mcp-server](https://github.com/DareDev256/fcp-mcp-server) lets Claude and other MCP clients read and edit Final Cut Pro timelines through FCPXML. Cut Review is the review step beside it, as one MCP tool, `review`, with the actions `diff`, `blame`, `notes` and `status` (see [As an MCP tool](#as-an-mcp-tool)).
+
+## How it compares
+
+| | Cut Review | Change List X | Marker Toolbox | Frame.io V4 |
+|---|---|---|---|---|
+| What it is | Free, open source command line tool and MCP server (MIT) | Mac app, US$199.99 | Final Cut workflow extension, US$19.99 | Hosted review platform, free and paid plans |
+| Notes into Final Cut as markers | Yes: plain text, any CSV, Frame.io comment CSV, as to-do markers on the clip | No | Yes: Frame.io FIOJSON (including the V4 beta), Vimeo, Wipster, Dropbox Replay, Premiere CSV, Timecode+, email text; resolved comments arrive completed | Comment export as CSV or text; its V3 "Import Comments into FCP" article now redirects to the help center home |
+| Compares two versions of the cut | Any two FCPXML exports, every lane, matched by source material | Primary storylines of two projects, as a PDF or TSV change list with pull and discard lists | No | Plays two uploaded versions side by side or overlaid: the pictures, not the timeline's clips |
+| Which notes the recut touched | Yes: done or open, against touched or untouched | No | No | No |
+| Which agent tool call made each change | Yes, from fcp-mcp-server's journal | No | No | No |
+
+Read from each product's own page on 2026-11-12: [Change List X](https://apps.apple.com/us/app/change-list-x/id694746044), [Marker Toolbox](https://markertoolbox.fcp.cafe/), [Frame.io comment export](https://help.frame.io/en/articles/9105309-comment-printing-and-comment-exporting), [Frame.io Comparison Viewer](https://help.frame.io/en/articles/9952618-comparison-viewer). Prices are the US Mac App Store's.
+
+Use Change List X when you need a conform change list for sound or VFX, in feet and frames, with pull and discard lists. Use Marker Toolbox when your notes come from Vimeo, Wipster, Dropbox Replay or Frame.io's FIOJSON download, or when you want drawn annotations brought across. Cut Review is for the step after the notes are on the cut: knowing which ones the recut actually changed.
 
 ## The notes door
 
@@ -76,7 +135,7 @@ Three formats are read:
 
 - **Plain text**, one note per line, timecode first: `00:01:23:12 note`, `1:23 note`, `[00:01:23:12] note`, a range `00:01:23:12 - 00:01:25:00 note`. An indented line continues the note above it.
 - **CSV** with a header row. The time column is found by name (`timecode`, `time`, `tc`, `in`, `start`...), the note column likewise (`note`, `comment`, `text`, `feedback`...), and an author column if there is one. A time may be a timecode or plain seconds.
-- **Frame.io's comment CSV export**, found by its `Commenter` and `Comment` columns. Columns are matched by name, so added or reordered columns still read. Replies are folded into the comment they answer, drawn-on comments are flagged, and comments already marked complete are written as completed markers. `--source-tc` uses the Timecode Source columns. Frame.io publishes no column list for V4; see DECISIONS.md for where the names come from.
+- **Frame.io's comment CSV export**, found by its `Commenter` and `Comment` columns. Columns are matched by name, so added or reordered columns still read. Replies are folded into the comment they answer, drawn-on comments are flagged, and comments already marked complete are written as completed markers. `--source-tc` uses the Timecode Source columns. Frame.io publishes no column list for V4; see [DECISIONS.md](https://github.com/DareDev256/cutreview/blob/main/DECISIONS.md) for where the names come from.
 
 Timecodes count from the sequence's start timecode, as Final Cut shows them. If the sequence starts at zero, the cut is under an hour, and every note reads past 01:00:00:00, cutreview reads the file as a review copy with an hour start and says so. `--start-tc` sets it by hand.
 
@@ -102,16 +161,36 @@ Clips that only slid with a ripple are counted, not listed. Frames on the page a
 ## As an MCP tool
 
 ```
-cutreview mcp
+uvx cutreview mcp
 ```
 
-One tool, `review`, over stdio, with four actions: `diff`, `blame`, `notes`, `status`. Every file it writes stays inside the folder of the cut it was given. Claude Code:
+One tool, `review`, over stdio, with four actions: `diff`, `blame`, `notes`, `status`. Every file it writes stays inside the folder of the cut it was given.
+
+Claude Code:
 
 ```
-claude mcp add cutreview -- uvx --from "$PWD" cutreview mcp
+claude mcp add cutreview -- uvx cutreview mcp
 ```
 
-(run from the clone, so `$PWD` is the repo).
+Claude Desktop and other clients that take a JSON config:
+
+```json
+{
+  "mcpServers": {
+    "cutreview": { "command": "uvx", "args": ["cutreview", "mcp"] }
+  }
+}
+```
+
+Its name in the official MCP registry is `io.github.DareDev256/cutreview`. It pairs with [fcp-mcp-server](https://github.com/DareDev256/fcp-mcp-server), which does the editing.
+
+## Work on it
+
+```
+git clone https://github.com/DareDev256/cutreview && cd cutreview
+uv venv && uv pip install -e ".[dev]"
+.venv/bin/python -m pytest
+```
 
 ## What "touched" means, exactly
 
@@ -120,17 +199,17 @@ A note is touched when a change lies within one second (`--reach`) of the note's
 ## Limits in v0.1
 
 - Final Cut only. Resolve and Premiere projects wait for v0.2.
-- One round trip into Final Cut 12.4 is written up in `docs/final-cut-proof.md` and not yet run.
+- One round trip into Final Cut 12.4 is written up in [`docs/final-cut-proof.md`](https://github.com/DareDev256/cutreview/blob/main/docs/final-cut-proof.md) and not yet run.
 - No voice notes, no notes without timecodes placed, no undo of a single change.
 - A speed ramp is read as one average speed.
 - Clips inside compound clips are not looked into.
 
 ## Credits
 
-Built on [fcp-mcp-server](https://github.com/DareDev256/fcp-mcp-server) (MIT), which supplies the FCPXML parser, the writer's element walker, the write journal and the DTD check. The fixtures `fixtures/music-video.fcpxml` and `fixtures/sample.fcpxml` come from its examples; its license is in `fixtures/LICENSE-fcp-mcp-server`.
+Built on [fcp-mcp-server](https://github.com/DareDev256/fcp-mcp-server) (MIT), which supplies the FCPXML parser, the writer's element walker, the write journal and the DTD check. The fixtures `fixtures/music-video.fcpxml` and `fixtures/sample.fcpxml` come from its examples; its license is in [`fixtures/LICENSE-fcp-mcp-server`](https://github.com/DareDev256/cutreview/blob/main/fixtures/LICENSE-fcp-mcp-server).
 
 ## License
 
-MIT. Copyright (c) 2026 James Olusoga (DareDev256).
+MIT. Copyright (c) 2026 James Olusoga (DareDev256), [jamesdare.com](https://jamesdare.com).
 
 <!-- mcp-name: io.github.DareDev256/cutreview -->

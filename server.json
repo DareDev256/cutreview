@@ -2,7 +2,17 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.DareDev256/cutreview",
   "title": "Cut Review",
-  "description": "Notes in as Final Cut to-do markers. Compare two FCPXML exports: what changed, which notes.",
+  "description": "Frame.io comments and client notes as Final Cut Pro to-do markers, then diff two FCPXML exports.",
+  "websiteUrl": "https://daredev256.github.io/cutreview/",
+  "icons": [
+    {
+      "src": "https://daredev256.github.io/cutreview/assets/icon-512.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "512x512"
+      ]
+    }
+  ],
   "repository": {
     "url": "https://github.com/DareDev256/cutreview",
     "source": "github"

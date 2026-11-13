@@ -5,24 +5,39 @@ build-backend = "hatchling.build"
 [project]
 name = "cutreview"
 version = "0.1.0"
-description = "Client notes and Frame.io comments in as Final Cut Pro to-do markers. Compare two FCPXML exports: what changed, and which notes it touched."
+description = "Frame.io comments and client notes into Final Cut Pro as to-do markers. Compare two FCPXML exports: what changed, and which notes the recut touched."
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "James Olusoga (DareDev256)" }]
 requires-python = ">=3.10"
-keywords = ["final-cut-pro", "fcpxml", "frame-io", "client-notes", "video-review", "video-editing", "markers", "timeline-diff", "fcpxml-diff", "mcp"]
+keywords = ["final-cut-pro", "fcpxml", "frame-io", "frameio", "client-notes", "client-feedback", "to-do-markers", "markers", "video-review", "video-editing", "post-production", "timeline-diff", "fcpxml-diff", "change-list", "mcp", "mcp-server", "model-context-protocol", "claude"]
 classifiers = [
     "Development Status :: 3 - Alpha",
+    "Environment :: Console",
     "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Developers",
     "Operating System :: MacOS",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Multimedia :: Video",
+    "Topic :: Multimedia :: Video :: Non-Linear Editor",
 ]
 dependencies = [
     "fcp-mcp-server==0.30.0",
     "mcp>=1.21.1",
 ]
+
+[project.urls]
+Homepage = "https://daredev256.github.io/cutreview/"
+Source = "https://github.com/DareDev256/cutreview"
+Issues = "https://github.com/DareDev256/cutreview/issues"
+Changelog = "https://github.com/DareDev256/cutreview/blob/main/CHANGELOG.md"
+Documentation = "https://github.com/DareDev256/cutreview#readme"
 
 [project.optional-dependencies]
 dev = ["pytest>=8"]
@@ -48,5 +63,6 @@ select = ["E", "F", "W"]
 [tool.ruff.lint.per-file-ignores]
 # CSS and HTML templates, mutation strings that must match the source exactly, inline FCPXML.
 "src/cutreview/page.py" = ["E501"]
+"scripts/build_site.py" = ["E501"]
 "scripts/mutate.py" = ["E501"]
 "tests/*.py" = ["E501"]

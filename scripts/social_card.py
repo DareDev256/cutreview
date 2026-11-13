@@ -29,7 +29,7 @@ SHOT_W, SHOT_H = 1120, 860  # the page is rendered at this size, then scaled int
 GROUND, INK, MUTE, ACCENT, LINE = "#000000", "#EDEDF0", "#8C8C96", "#00E5FF", "#3A3A44"
 
 NAME = "cutreview"
-SUBTITLE = "Final Cut review notes, ticked and touched"
+SUBTITLE = "Frame.io comments and client notes as Final Cut Pro to-do markers"
 PROMISE = "Client notes land in Final Cut as to-dos. After the recut, see which ones the cut changed."
 INSTALL = "uvx cutreview"
 
@@ -41,7 +41,7 @@ def html(shot_png: bytes) -> str:
   body {{ position: relative; font-family: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif; color: {INK}; }}
   #copy {{ position: absolute; left: 64px; top: 64px; width: 450px; bottom: 64px; display: flex; flex-direction: column; }}
   #name {{ font-size: 60px; line-height: 1; font-weight: 700; letter-spacing: -0.035em; margin: 0; }}
-  #subtitle {{ margin: 16px 0 0; font-size: 21px; line-height: 1.3; color: {MUTE}; }}
+  #subtitle {{ margin: 16px 0 0; font-size: 21px; line-height: 1.3; color: {MUTE}; text-wrap: balance; }}
   #promise {{ margin: 34px 0 0; font-size: 30px; line-height: 1.22; font-weight: 600; letter-spacing: -0.01em; }}
   #install {{ margin-top: auto; align-self: flex-start; font: 600 19px/1 ui-monospace, "SF Mono", Menlo, monospace;
              color: {ACCENT}; border: 1px solid {LINE}; border-radius: 8px; padding: 11px 14px; }}

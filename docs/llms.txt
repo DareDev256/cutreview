@@ -1,0 +1,34 @@
+# Cut Review
+
+> Cut Review is a free, open source command line tool and MCP server for Final Cut Pro. It writes client notes and Frame.io comment exports into your project's FCPXML as to-do markers on the clips they are about. After the recut it compares two FCPXML exports and shows, on one page, what changed and which notes the recut touched, whether you or an AI agent made the edit.
+
+- Package: `cutreview` on PyPI, version 0.1.0. Run with `uvx cutreview`. Python 3.10 or newer. MIT license.
+- Author: James Olusoga (DareDev256), https://jamesdare.com
+- Commands: `notes` (notes in as to-do markers), `status` (each note done or open, touched or untouched), `diff` (what changed between two exports), `blame` (which fcp-mcp-server tool call made each change), `mcp` (MCP server over stdio, one tool `review`).
+- Reads: plain text notes with timecodes, any CSV with a header row, Frame.io comment CSV exports (columns read by name; not yet tested on a real Frame.io V4 export).
+- Writes: FCPXML with to-do markers (checked against Apple's FCPXML DTD when Final Cut Pro is installed), and one self-contained HTML page per report.
+- It is not a review platform (no server, no account, no upload), it says "touched" and never "addressed", there is no AI in the notes path, and it never changes a clip.
+- Limits: Final Cut Pro only (Resolve and Premiere wait for a later version); clips inside compound clips are not looked into; a speed ramp is read as one average speed.
+
+## Docs
+
+- [Website](https://daredev256.github.io/cutreview/): what it does, quick start, questions, comparison
+- [README](https://github.com/DareDev256/cutreview#readme): full reference for every command and format
+- [DECISIONS.md](https://github.com/DareDev256/cutreview/blob/main/DECISIONS.md): why it works the way it does, with sources
+- [CHANGELOG.md](https://github.com/DareDev256/cutreview/blob/main/CHANGELOG.md)
+- [PyPI](https://pypi.org/project/cutreview/)
+
+## Questions
+
+- How do I get Frame.io comments into Final Cut Pro? Export the comments from Frame.io as a CSV (in Frame.io V4: the three-dot menu in the Comments tab), then run uvx cutreview notes cut.fcpxmld comments.csv and import the result in Final Cut with File > Import > XML. Cut Review finds a Frame.io export by its Commenter and Comment columns, writes each comment as a to-do marker on the clip under it, folds replies into the comment they answer, and writes comments already marked complete as completed markers.
+- Does it work with Frame.io V4? Frame.io documents V4's comment export as CSV or plain text but publishes no column list. Cut Review reads the columns by name, never by position, and has been tested on a file rebuilt from the published V3-era names, not yet on a real V4 export. If your export does not read, open an issue with its header row.
+- How do I import a CSV of notes as Final Cut Pro markers? Any CSV with a header row works. Cut Review finds the time column by name (timecode, time, tc, in, start) and the note column likewise (note, comment, text, feedback), with an author column if there is one. uvx cutreview notes cut.fcpxmld notes.csv writes them as to-do markers. A row with no time is listed as not placed, never guessed.
+- How do I compare two FCPXML files and see what changed between two Final Cut exports? uvx cutreview diff cut_v1.fcpxmld cut_v2.fcpxmld -o review.html writes one HTML page listing every clip added, removed, trimmed, moved, retimed or adjusted, and every transition change, with a timeline strip and before and after frames. Clips are matched by source material, not by name, so a ripple, a head trim or a cut built on connected clips reads correctly.
+- How do I check what an AI agent changed in my edit? Run cutreview diff on the export before and after the agent worked. If the agent edited through fcp-mcp-server, cutreview blame names the tool call behind each change from that server's write journal, and marks anything done by hand as not in the journal. If your notes were on the cut, cutreview status shows which of them the agent's changes touched.
+- How do I track which client notes the recut dealt with? Put the notes on the cut as to-do markers with cutreview notes, tick them in Final Cut as you work, then run cutreview status on the next export. Each note comes back done or open (your tick) and touched or untouched (whether the cut changed within a second of it), and the page starts with the notes where those two disagree.
+- Is Cut Review a Frame.io alternative? No. It does not host video or collect comments from clients. It works on the notes you already get, from Frame.io, email, texts or a call, and on Final Cut's own XML exports.
+- Is there an MCP server for Final Cut Pro? Yes: fcp-mcp-server lets Claude and other MCP clients read and edit Final Cut Pro timelines through FCPXML. Cut Review is the review step beside it, as one MCP tool, review, with the actions diff, blame, notes and status.
+
+## Related
+
+- [fcp-mcp-server](https://github.com/DareDev256/fcp-mcp-server): an MCP server that lets Claude read and edit Final Cut Pro timelines through FCPXML. Cut Review reads its write journal for `blame`.
