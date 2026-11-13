@@ -284,6 +284,26 @@ td.us,thead th.us{color:var(--fg);background:var(--tint)}
 """
 
 
+# The page's only script: it unhides the copy buttons. GitHub Pages cannot send
+# headers, so the Content-Security-Policy rides in a meta tag, with this script
+# allowed by its hash and everything else (other scripts, frames, forms,
+# requests to any other host) refused.
+SCRIPT = (
+    'for(const b of document.querySelectorAll(".copy")){b.hidden=false;b.addEventListener("click",()=>'
+    'navigator.clipboard.writeText(b.dataset.copy).then(()=>{b.textContent="Copied";setTimeout(()=>b.textContent="Copy",1500)}))}'
+)
+
+
+def csp() -> str:
+    import base64
+    import hashlib
+
+    digest = base64.b64encode(hashlib.sha256(SCRIPT.encode()).digest()).decode()
+    return (
+        "default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; "
+        f"script-src 'sha256-{digest}'; base-uri 'none'; form-action 'none'"
+    )
+
 def page(ver: str) -> str:
     e = html.escape
     faq = "\n".join(f'<div><h3>{e(q)}</h3><p>{a}</p></div>' for q, a in FAQ)
@@ -300,6 +320,8 @@ def page(ver: str) -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="{csp()}">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>{e(TITLE)}</title>
 <meta name="description" content="{e(DESCRIPTION)}">
 <link rel="canonical" href="{SITE}">
@@ -445,7 +467,7 @@ uvx cutreview diff cut_notes.fcpxmld cut_v2.fcpxmld -o review.html</code></pre><
 <a href="llms.txt">llms.txt</a>
 </footer>
 </div>
-<script>for(const b of document.querySelectorAll(".copy")){{b.hidden=false;b.addEventListener("click",()=>navigator.clipboard.writeText(b.dataset.copy).then(()=>{{b.textContent="Copied";setTimeout(()=>b.textContent="Copy",1500)}}))}}</script>
+<script>{SCRIPT}</script>
 </body>
 </html>
 """
@@ -572,6 +594,8 @@ def guards(t: dict[str, str]) -> list[str]:
             bad.append(f"{url} would 404: no such file in docs/")
     if re.search(r"<script[^>]+src=", page_) or re.search(r'<link[^>]+rel="stylesheet"', page_):
         bad.append("index.html loads a script or stylesheet; the page must load nothing but its own pictures")
+    if f'content="{csp()}"' not in page_ or f"<script>{SCRIPT}</script>" not in page_:
+        bad.append("the Content-Security-Policy meta is missing, or does not hash the script on the page")
     if any(tr in page_ for tr in TRACKERS):
         bad.append("index.html carries a tracker")
     if f'<link rel="canonical" href="{SITE}">' not in page_:
