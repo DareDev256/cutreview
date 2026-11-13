@@ -6,3 +6,5 @@ __pycache__/
 dist/
 fixtures/build/
 .cutreview-*/
+/tmp-scrub/
+docs/launch.md

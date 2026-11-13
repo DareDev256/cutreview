@@ -10,6 +10,8 @@
 
 *The status page from the demo round, on synthesized test media. Website: [daredev256.github.io/cutreview](https://daredev256.github.io/cutreview/)*
 
+**Verified on Final Cut Pro 12.4:** to-do markers, their note text and the editor's ticks survive a round trip ([the proof](https://github.com/DareDev256/cutreview/blob/main/docs/final-cut-proof.md)).
+
 ## What this is not
 
 - **Not a review platform.** There is no server, no account and no upload. Every page is one HTML file on your disk with nothing to load.
@@ -66,6 +68,10 @@ Screens from the demo round (synthesized media): [change page](https://raw.githu
 ### How do I get Frame.io comments into Final Cut Pro?
 
 Export the comments from Frame.io as a CSV (in Frame.io V4: the three-dot menu in the Comments tab), then run `uvx cutreview notes cut.fcpxmld comments.csv` and import the result with **File > Import > XML**. Cut Review finds a Frame.io export by its `Commenter` and `Comment` columns, writes each comment as a to-do marker on the clip under it, folds replies into the comment they answer, flags drawn-on comments, and writes comments already marked complete as completed markers.
+
+### Does it work with Final Cut Pro 12.4?
+
+Yes. Final Cut Pro 12.4 imported the six to-do markers Cut Review wrote at the exact times and on the right clips, showed their note text in the Timeline Index, and wrote the editor's ticks into its XML export as `completed="1"`. Cut Review read that export back as one trim, two notes ticked but untouched and one changed but not ticked, which is what happened. The run, on test media, is written up in [`docs/final-cut-proof.md`](https://github.com/DareDev256/cutreview/blob/main/docs/final-cut-proof.md) and kept as a test.
 
 ### Does it work with Frame.io V4?
 
@@ -199,7 +205,7 @@ A note is touched when a change lies within one second (`--reach`) of the note's
 ## Limits in v0.1
 
 - Final Cut only. Resolve and Premiere projects wait for v0.2.
-- One round trip into Final Cut 12.4 is written up in [`docs/final-cut-proof.md`](https://github.com/DareDev256/cutreview/blob/main/docs/final-cut-proof.md) and not yet run.
+- The Final Cut round trip has been run once, on test media with one trim ([`docs/final-cut-proof.md`](https://github.com/DareDev256/cutreview/blob/main/docs/final-cut-proof.md)). A real project with blades, transitions and speed changes made in Final Cut is the next round.
 - No voice notes, no notes without timecodes placed, no undo of a single change.
 - A speed ramp is read as one average speed.
 - Clips inside compound clips are not looked into.

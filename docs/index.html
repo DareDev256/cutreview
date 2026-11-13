@@ -95,6 +95,14 @@
     },
     {
      "@type": "Question",
+     "name": "Does it work with Final Cut Pro 12.4?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. Final Cut Pro 12.4 imported the six to-do markers Cut Review wrote at the exact times and on the right clips, showed their note text in the Timeline Index, and wrote the editor's ticks into its XML export as completed markers. Cut Review read that export back as one trim, two notes ticked but untouched and one changed but not ticked, which is what happened. The run, on test media, is written up and kept as a test."
+     }
+    },
+    {
+     "@type": "Question",
      "name": "Does it work with Frame.io V4?",
      "acceptedAnswer": {
       "@type": "Answer",
@@ -178,6 +186,7 @@ h1{font-size:clamp(36px,6.4vw,66px);line-height:1.03;letter-spacing:-.04em;margi
 .cmd .p{color:var(--accent);user-select:none}
 .copy{margin-left:auto;flex:none;background:transparent;color:var(--fg);border:1px solid var(--line);border-radius:7px;padding:7px 11px;font:600 13px/1 system-ui,sans-serif;cursor:pointer}
 .copy:hover{border-color:var(--accent)}
+.verified{margin:-8px 0 24px;font-size:15px;color:var(--muted)}
 .links{display:flex;flex-wrap:wrap;gap:8px 22px;margin:18px 0 0;font-size:16px}
 figure{margin:0}
 .shot{margin-top:48px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg)}
@@ -240,6 +249,7 @@ td.us,thead th.us{color:var(--fg);background:var(--tint)}
 <main>
 <h1>Frame.io comments and client notes as Final&nbsp;Cut&nbsp;Pro to-do markers</h1>
 <p class="lede">Cut Review is a free, open source command line tool and MCP server for Final Cut Pro. <span>It writes client notes and Frame.io comment exports into your project&#x27;s FCPXML as to-do markers on the clips they are about. After the recut it compares two FCPXML exports and shows, on one page, what changed and which notes the recut touched, whether you or an AI agent made the edit.</span></p>
+<p class="verified">Verified on Final Cut Pro 12.4: to-do markers, their note text and the editor's ticks survive a <a href="https://github.com/DareDev256/cutreview/blob/main/docs/final-cut-proof.md">round trip</a>.</p>
 <div class="cmd"><span class="p" aria-hidden="true">$</span><code>uvx cutreview notes cut.fcpxmld notes.txt</code><button class="copy" type="button" data-copy="uvx cutreview notes cut.fcpxmld notes.txt" hidden>Copy</button></div>
 <p class="links"><a href="#quick-start">Quick start</a><a href="https://github.com/DareDev256/cutreview">Source on GitHub</a><a href="https://pypi.org/project/cutreview/">cutreview on PyPI</a><a href="#mcp">Use it from Claude</a></p>
 <figure class="shot">
@@ -310,6 +320,7 @@ uvx cutreview diff cut_notes.fcpxmld cut_v2.fcpxmld -o review.html</code></pre><
 <h2 id="faq">Questions</h2>
 <div class="faq">
 <div><h3>How do I get Frame.io comments into Final Cut Pro?</h3><p>Export the comments from Frame.io as a CSV (in Frame.io V4: the three-dot menu in the Comments tab), then run <code>uvx cutreview notes cut.fcpxmld comments.csv</code> and import the result in Final Cut with File &gt; Import &gt; XML. Cut Review finds a Frame.io export by its Commenter and Comment columns, writes each comment as a to-do marker on the clip under it, folds replies into the comment they answer, and writes comments already marked complete as completed markers.</p></div>
+<div><h3>Does it work with Final Cut Pro 12.4?</h3><p>Yes. Final Cut Pro 12.4 imported the six to-do markers Cut Review wrote at the exact times and on the right clips, showed their note text in the Timeline Index, and wrote the editor's ticks into its XML export as completed markers. Cut Review read that export back as one trim, two notes ticked but untouched and one changed but not ticked, which is what happened. The run, on test media, is <a href="https://github.com/DareDev256/cutreview/blob/main/docs/final-cut-proof.md">written up</a> and kept as a test.</p></div>
 <div><h3>Does it work with Frame.io V4?</h3><p>Frame.io documents V4's comment export as CSV or plain text but publishes no column list. Cut Review reads the columns by name, never by position, and has been tested on a file rebuilt from the published V3-era names, not yet on a real V4 export. If your export does not read, <a href="https://github.com/DareDev256/cutreview/issues">open an issue</a> with its header row.</p></div>
 <div><h3>How do I import a CSV of notes as Final Cut Pro markers?</h3><p>Any CSV with a header row works. Cut Review finds the time column by name (timecode, time, tc, in, start) and the note column likewise (note, comment, text, feedback), with an author column if there is one. <code>uvx cutreview notes cut.fcpxmld notes.csv</code> writes them as to-do markers. A row with no time is listed as not placed, never guessed.</p></div>
 <div><h3>How do I compare two FCPXML files and see what changed between two Final Cut exports?</h3><p><code>uvx cutreview diff cut_v1.fcpxmld cut_v2.fcpxmld -o review.html</code> writes one HTML page listing every clip added, removed, trimmed, moved, retimed or adjusted, and every transition change, with a timeline strip and before and after frames. Clips are matched by source material, not by name, so a ripple, a head trim or a cut built on connected clips reads correctly.</p></div>

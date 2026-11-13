@@ -60,6 +60,11 @@ FAQ = [
      "<code>uvx cutreview notes cut.fcpxmld comments.csv</code> and import the result in Final Cut with File &gt; Import &gt; XML. "
      "Cut Review finds a Frame.io export by its Commenter and Comment columns, writes each comment as a to-do marker on the clip under it, "
      "folds replies into the comment they answer, and writes comments already marked complete as completed markers."),
+    ("Does it work with Final Cut Pro 12.4?",
+     "Yes. Final Cut Pro 12.4 imported the six to-do markers Cut Review wrote at the exact times and on the right clips, showed their note text "
+     "in the Timeline Index, and wrote the editor's ticks into its XML export as completed markers. Cut Review read that export back as one trim, "
+     "two notes ticked but untouched and one changed but not ticked, which is what happened. "
+     f'The run, on test media, is <a href="{BLOB}docs/final-cut-proof.md">written up</a> and kept as a test.'),
     ("Does it work with Frame.io V4?",
      "Frame.io documents V4's comment export as CSV or plain text but publishes no column list. Cut Review reads the columns by name, "
      "never by position, and has been tested on a file rebuilt from the published V3-era names, not yet on a real V4 export. "
@@ -224,6 +229,7 @@ h1{font-size:clamp(36px,6.4vw,66px);line-height:1.03;letter-spacing:-.04em;margi
 .cmd .p{color:var(--accent);user-select:none}
 .copy{margin-left:auto;flex:none;background:transparent;color:var(--fg);border:1px solid var(--line);border-radius:7px;padding:7px 11px;font:600 13px/1 system-ui,sans-serif;cursor:pointer}
 .copy:hover{border-color:var(--accent)}
+.verified{margin:-8px 0 24px;font-size:15px;color:var(--muted)}
 .links{display:flex;flex-wrap:wrap;gap:8px 22px;margin:18px 0 0;font-size:16px}
 figure{margin:0}
 .shot{margin-top:48px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg)}
@@ -334,6 +340,7 @@ def page(ver: str) -> str:
 <main>
 <h1>{e(H1).replace("Final Cut Pro", "Final&nbsp;Cut&nbsp;Pro")}</h1>
 <p class="lede">{e(DEFINITION.split(". ", 1)[0])}. <span>{e(DEFINITION.split(". ", 1)[1])}</span></p>
+<p class="verified">Verified on Final Cut Pro 12.4: to-do markers, their note text and the editor's ticks survive a <a href="{BLOB}docs/final-cut-proof.md">round trip</a>.</p>
 <div class="cmd"><span class="p" aria-hidden="true">$</span><code>uvx cutreview notes cut.fcpxmld notes.txt</code><button class="copy" type="button" data-copy="uvx cutreview notes cut.fcpxmld notes.txt" hidden>Copy</button></div>
 <p class="links"><a href="#quick-start">Quick start</a><a href="{GITHUB}">Source on GitHub</a><a href="{PYPI}">cutreview on PyPI</a><a href="#mcp">Use it from Claude</a></p>
 <figure class="shot">
@@ -483,6 +490,7 @@ def llms(ver: str) -> str:
 - Reads: plain text notes with timecodes, any CSV with a header row, Frame.io comment CSV exports (columns read by name; not yet tested on a real Frame.io V4 export).
 - Writes: FCPXML with to-do markers (checked against Apple's FCPXML DTD when Final Cut Pro is installed), and one self-contained HTML page per report.
 - It is not a review platform (no server, no account, no upload), it says "touched" and never "addressed", there is no AI in the notes path, and it never changes a clip.
+- Verified on Final Cut Pro 12.4: to-do markers, their note text and the editor's ticks survive a round trip (run once, on test media with one trim; {BLOB}docs/final-cut-proof.md).
 - Limits: Final Cut Pro only (Resolve and Premiere wait for a later version); clips inside compound clips are not looked into; a speed ramp is read as one average speed.
 
 ## Docs

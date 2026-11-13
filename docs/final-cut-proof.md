@@ -90,7 +90,7 @@ Add a "Result" section below with: the date, Final Cut's version (Final Cut Pro 
 
 ## Result
 
-**Run on 2026-11-12, 23:56 to 23:58, on screen, with Final Cut Pro 12.4.** The export dialog offered FCPXML 1.14 as current; the export is a bundle. Both files are kept byte for byte in `tests/fixtures/fcp-12.4-roundtrip/` (`maya_v1_notes.fcpxml`, sha256 `30802ee3...2fd20`, and `maya_fcp.fcpxmld/Info.fcpxml`, sha256 `4259c091...d87ff`), and `tests/test_fcp_roundtrip.py` pins both hashes.
+**Run on 2026-11-12, 23:56 to 23:58, on screen, with Final Cut Pro 12.4.** The export dialog offered FCPXML 1.14 as current; the export is a bundle. Both files are kept in `tests/fixtures/fcp-12.4-roundtrip/`, byte for byte apart from three kinds of edit made before the repo went public and listed in that folder's README: machine paths replaced with `/Users/editor/cutreview-demo/`, the library location likewise, and the six macOS `<bookmark>` blobs removed (`maya_v1_notes.fcpxml`, sha256 `0bf5437a...7008cb`, and `maya_fcp.fcpxmld/Info.fcpxml`, sha256 `0a58df4a...2eb4b4`). `tests/test_fcp_roundtrip.py` pins both hashes.
 
 ### Final Cut side: passed
 

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE fcpxml>
+<fcpxml version="1.13">
+    <resources>
+        <format id="r1" name="FFVideoFormat720p24" frameDuration="1/24s" width="1280" height="720"/>
+        <asset id="a2" name="Interview_Maya" start="0s" duration="40s" hasVideo="1" hasAudio="0" format="r1">
+            <media-rep kind="original-media" src="file:///Users/editor/cutreview-demo/media/Interview_Maya.mp4"/>
+        </asset>
+        <asset id="a3" name="Broll_Street" start="0s" duration="20s" hasVideo="1" hasAudio="0" format="r1">
+            <media-rep kind="original-media" src="file:///Users/editor/cutreview-demo/media/Broll_Street.mp4"/>
+        </asset>
+        <asset id="a4" name="Broll_Studio" start="0s" duration="20s" hasVideo="1" hasAudio="0" format="r1">
+            <media-rep kind="original-media" src="file:///Users/editor/cutreview-demo/media/Broll_Studio.mp4"/>
+        </asset>
+        <asset id="a5" name="Drone_Bay" start="0s" duration="20s" hasVideo="1" hasAudio="0" format="r1">
+            <media-rep kind="original-media" src="file:///Users/editor/cutreview-demo/media/Drone_Bay.mp4"/>
+        </asset>
+        <asset id="a6" name="Logo_Bars" start="0s" duration="20s" hasVideo="1" hasAudio="0" format="r1">
+            <media-rep kind="original-media" src="file:///Users/editor/cutreview-demo/media/Logo_Bars.mp4"/>
+        </asset>
+        <asset id="a7" name="Music_Bed" start="0s" duration="60s" hasVideo="0" hasAudio="1">
+            <media-rep kind="original-media" src="file:///Users/editor/cutreview-demo/media/Music_Bed.m4a"/>
+        </asset>
+    </resources>
+    <library>
+        <event name="Cut Review Demo">
+            <project name="Maya Profile v1">
+                <sequence format="r1" duration="29s" tcStart="3600s" tcFormat="NDF" audioLayout="stereo" audioRate="48k">
+                    <spine>
+                        <asset-clip ref="a2" offset="3600s" name="Interview Open" start="2s" duration="6s" format="r1" tcFormat="NDF">
+                            <asset-clip ref="a7" lane="-1" name="Music Bed" offset="2s" start="0s" duration="29s" audioRole="music"/>
+                            <marker start="84/24s" duration="1/24s" value="#1 Open on her laugh, not the breath before it" completed="0" note="Open on her laugh, not the breath before it (client-notes.txt line 1, written at 01:00:01:12)"/>
+                        </asset-clip>
+                        <asset-clip ref="a3" offset="3606s" name="Street Wide" start="0s" duration="4s" format="r1" tcFormat="NDF">
+                            <marker start="1s" duration="1/24s" value="#2 Street shot is too long, half it" completed="0" note="Street shot is too long, half it (client-notes.txt line 2, written at 01:00:07:00)"/>
+                        </asset-clip>
+                        <asset-clip ref="a2" offset="3610s" name="Interview Answer" start="12s" duration="8s" format="r1" tcFormat="NDF">
+                            <asset-clip ref="a3" lane="1" name="Street Cutaway" offset="14s" start="8s" duration="3s">
+                                <marker start="204/24s" duration="36/24s" value="#3 This cutaway covers her best line" completed="0" note="This cutaway covers her best line (client-notes.txt line 3, written at 01:00:12:12 to 01:00:14:00)"/>
+                            </asset-clip>
+                        </asset-clip>
+                        <asset-clip ref="a4" offset="3618s" name="Studio Detail" start="3s" duration="3s" format="r1" tcFormat="NDF">
+                            <marker start="4s" duration="1/24s" value="#4 Studio detail feels random here" completed="0" note="Studio detail feels random here (client-notes.txt line 4, written at 01:00:19:00)"/>
+                        </asset-clip>
+                        <asset-clip ref="a5" offset="3621s" name="Drone Reveal" start="0s" duration="5s" format="r1" tcFormat="NDF">
+                            <marker start="2s" duration="1/24s" value="#5 Drone could hold longer" completed="0" note="Drone could hold longer (client-notes.txt line 5, written at 01:00:23:00)"/>
+                        </asset-clip>
+                        <asset-clip ref="a6" offset="3626s" name="Logo" start="2s" duration="3s" format="r1" tcFormat="NDF">
+                            <marker start="3s" duration="1/24s" value="#6 Logo needs a beat of black before it" completed="0" note="Logo needs a beat of black before it (client-notes.txt line 6, written at 01:00:27:00)"/>
+                        </asset-clip>
+                    </spine>
+                </sequence>
+            </project>
+        </event>
+    </library>
+</fcpxml>

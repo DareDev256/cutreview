@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE fcpxml>
+
+<fcpxml version="1.14">
+    <resources>
+        <format id="r1" name="FFVideoFormat720p24" frameDuration="100/2400s" width="1280" height="720" colorSpace="1-1-1 (Rec. 709)"/>
+        <asset id="r2" name="Interview_Maya" uid="D7437511CE1602DDAAC4EF210AC289C7" start="0s" duration="40s" hasVideo="1" format="r1" videoSources="1">
+            <media-rep kind="original-media" sig="D7437511CE1602DDAAC4EF210AC289C7" src="file:///Users/editor/cutreview-demo/media/Interview_Maya.mp4">
+            </media-rep>
+            <metadata>
+                <md key="com.apple.proapps.studio.rawToLogConversion" value="0"/>
+                <md key="com.apple.proapps.studio.cameraISO" value="0"/>
+                <md key="com.apple.proapps.studio.cameraColorTemperature" value="0"/>
+                <md key="com.apple.proapps.spotlight.kMDItemCodecs">
+                    <array>
+                        <string>Lavc63.1.101 libx264</string>
+                    </array>
+                </md>
+                <md key="com.apple.proapps.mio.ingestDate" value="2026-11-12 23:56:57 -0500"/>
+            </metadata>
+        </asset>
+        <asset id="r3" name="Music_Bed" uid="9DBF74689DDB768A9830F6240FF4481A" start="0s" duration="60s" hasAudio="1" audioSources="1" audioChannels="1" audioRate="44100">
+            <media-rep kind="original-media" sig="9DBF74689DDB768A9830F6240FF4481A" src="file:///Users/editor/cutreview-demo/media/Music_Bed.m4a">
+            </media-rep>
+            <metadata>
+                <md key="com.apple.proapps.mio.ingestDate" value="2026-11-12 23:56:57 -0500"/>
+            </metadata>
+        </asset>
+        <asset id="r4" name="Broll_Street" uid="75A004046347C3FF807261209DC1090A" start="0s" duration="20s" hasVideo="1" format="r1" videoSources="1">
+            <media-rep kind="original-media" sig="75A004046347C3FF807261209DC1090A" src="file:///Users/editor/cutreview-demo/media/Broll_Street.mp4">
+            </media-rep>
+            <metadata>
+                <md key="com.apple.proapps.studio.rawToLogConversion" value="0"/>
+                <md key="com.apple.proapps.studio.cameraISO" value="0"/>
+                <md key="com.apple.proapps.studio.cameraColorTemperature" value="0"/>
+                <md key="com.apple.proapps.spotlight.kMDItemCodecs">
+                    <array>
+                        <string>Lavc63.1.101 libx264</string>
+                    </array>
+                </md>
+                <md key="com.apple.proapps.mio.ingestDate" value="2026-11-12 23:56:57 -0500"/>
+            </metadata>
+        </asset>
+        <asset id="r5" name="Broll_Studio" uid="21D43866A7EC7F4FC7525231A8D6C378" start="0s" duration="20s" hasVideo="1" format="r6" videoSources="1">
+            <media-rep kind="original-media" sig="21D43866A7EC7F4FC7525231A8D6C378" src="file:///Users/editor/cutreview-demo/media/Broll_Studio.mp4">
+            </media-rep>
+            <metadata>
+                <md key="com.apple.proapps.studio.rawToLogConversion" value="0"/>
+                <md key="com.apple.proapps.studio.cameraISO" value="0"/>
+                <md key="com.apple.proapps.studio.cameraColorTemperature" value="0"/>
+                <md key="com.apple.proapps.spotlight.kMDItemCodecs">
+                    <array>
+                        <string>Lavc63.1.101 libx264</string>
+                    </array>
+                </md>
+                <md key="com.apple.proapps.mio.ingestDate" value="2026-11-12 23:56:57 -0500"/>
+            </metadata>
+        </asset>
+        <format id="r6" frameDuration="512/12288s" width="1280" height="720" paspH="27" paspV="32" colorSpace="1-1-1 (Rec. 709)"/>
+        <asset id="r7" name="Drone_Bay" uid="C7E2553732F770898DFEAC6702C66581" start="0s" duration="20s" hasVideo="1" format="r1" videoSources="1">
+            <media-rep kind="original-media" sig="C7E2553732F770898DFEAC6702C66581" src="file:///Users/editor/cutreview-demo/media/Drone_Bay.mp4">
+            </media-rep>
+            <metadata>
+                <md key="com.apple.proapps.studio.rawToLogConversion" value="0"/>
+                <md key="com.apple.proapps.studio.cameraISO" value="0"/>
+                <md key="com.apple.proapps.studio.cameraColorTemperature" value="0"/>
+                <md key="com.apple.proapps.spotlight.kMDItemCodecs">
+                    <array>
+                        <string>Lavc63.1.101 libx264</string>
+                    </array>
+                </md>
+                <md key="com.apple.proapps.mio.ingestDate" value="2026-11-12 23:56:57 -0500"/>
+            </metadata>
+        </asset>
+        <asset id="r8" name="Logo_Bars" uid="7FFAE8B7AAD1A739F3CCC67B48F40536" start="0s" duration="20s" hasVideo="1" format="r1" videoSources="1">
+            <media-rep kind="original-media" sig="7FFAE8B7AAD1A739F3CCC67B48F40536" src="file:///Users/editor/cutreview-demo/media/Logo_Bars.mp4">
+            </media-rep>
+            <metadata>
+                <md key="com.apple.proapps.studio.rawToLogConversion" value="0"/>
+                <md key="com.apple.proapps.studio.cameraISO" value="0"/>
+                <md key="com.apple.proapps.studio.cameraColorTemperature" value="0"/>
+                <md key="com.apple.proapps.spotlight.kMDItemCodecs">
+                    <array>
+                        <string>Lavc63.1.101 libx264</string>
+                    </array>
+                </md>
+                <md key="com.apple.proapps.mio.ingestDate" value="2026-11-12 23:56:57 -0500"/>
+            </metadata>
+        </asset>
+    </resources>
+    <library location="file:///Users/editor/cutreview-demo/CutReview%20Proof.fcpbundle/">
+        <event name="Cut Review Demo" uid="008A3769-1CEE-4D7F-91AF-240D0C2CB8D0">
+            <project name="Maya Profile v1" uid="9A1F2C13-3363-4949-8782-5CF32C16F769" modDate="2026-11-12 23:58:01 -0500">
+                <sequence format="r1" duration="29s" tcStart="3600s" tcFormat="NDF" audioLayout="stereo" audioRate="48k">
+                    <spine>
+                        <asset-clip ref="r2" offset="3600s" name="Interview Open" start="2s" duration="6s" tcFormat="NDF">
+                            <asset-clip ref="r3" lane="-1" offset="2s" name="Music Bed" duration="29s" audioRole="music"/>
+                            <marker start="7/2s" duration="1/24s" value="#1 Open on her laugh, not the breath before it" completed="1" note="Open on her laugh, not the breath before it (client-notes.txt line 1, written at 01:00:01:12)"/>
+                        </asset-clip>
+                        <asset-clip ref="r4" offset="3606s" name="Street Wide" duration="2s" tcFormat="NDF">
+                            <marker start="1s" duration="1/24s" value="#2 Street shot is too long, half it" completed="0" note="Street shot is too long, half it (client-notes.txt line 2, written at 01:00:07:00)"/>
+                        </asset-clip>
+                        <asset-clip ref="r2" offset="3608s" name="Interview Answer" start="12s" duration="8s" tcFormat="NDF">
+                            <asset-clip ref="r4" lane="1" offset="14s" name="Street Cutaway" start="8s" duration="3s" tcFormat="NDF">
+                                <marker start="17/2s" duration="36/24s" value="#3 This cutaway covers her best line" completed="1" note="This cutaway covers her best line (client-notes.txt line 3, written at 01:00:12:12 to 01:00:14:00)"/>
+                            </asset-clip>
+                        </asset-clip>
+                        <asset-clip ref="r5" offset="3616s" name="Studio Detail" start="3s" duration="3s" tcFormat="NDF">
+                            <marker start="4s" duration="1/24s" value="#4 Studio detail feels random here" completed="0" note="Studio detail feels random here (client-notes.txt line 4, written at 01:00:19:00)"/>
+                        </asset-clip>
+                        <asset-clip ref="r7" offset="3619s" name="Drone Reveal" duration="5s" tcFormat="NDF">
+                            <marker start="2s" duration="1/24s" value="#5 Drone could hold longer" completed="0" note="Drone could hold longer (client-notes.txt line 5, written at 01:00:23:00)"/>
+                        </asset-clip>
+                        <asset-clip ref="r8" offset="3624s" name="Logo" start="2s" duration="3s" tcFormat="NDF">
+                            <marker start="3s" duration="1/24s" value="#6 Logo needs a beat of black before it" completed="0" note="Logo needs a beat of black before it (client-notes.txt line 6, written at 01:00:27:00)"/>
+                        </asset-clip>
+                    </spine>
+                </sequence>
+            </project>
+        </event>
+        <smart-collection name="Projects" match="all">
+            <match-clip rule="is" type="project"/>
+        </smart-collection>
+        <smart-collection name="All Video" match="any">
+            <match-media rule="is" type="videoOnly"/>
+            <match-media rule="is" type="videoWithAudio"/>
+        </smart-collection>
+        <smart-collection name="Audio Only" match="all">
+            <match-media rule="is" type="audioOnly"/>
+        </smart-collection>
+        <smart-collection name="Stills" match="all">
+            <match-media rule="is" type="stills"/>
+        </smart-collection>
+        <smart-collection name="Favorites" match="all">
+            <match-ratings value="favorites"/>
+        </smart-collection>
+        <smart-collection name="Missing Analysis" match="all">
+            <match-analysis-type rule="isMissing" value="any"/>
+        </smart-collection>
+    </library>
+</fcpxml>

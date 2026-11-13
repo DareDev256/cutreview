@@ -1,4 +1,5 @@
-"""A real Final Cut Pro 12.4 round trip, kept byte for byte.
+"""A real Final Cut Pro 12.4 round trip, kept byte for byte apart from the edits
+listed in tests/fixtures/fcp-12.4-roundtrip/README.md (machine paths, bookmarks).
 
 tests/fixtures/fcp-12.4-roundtrip/ holds the file cutreview wrote
 (maya_v1_notes.fcpxml, six to-do markers) and what Final Cut exported after
@@ -23,8 +24,8 @@ HERE = Path(__file__).parent / "fixtures" / "fcp-12.4-roundtrip"
 MARKED = HERE / "maya_v1_notes.fcpxml"
 EXPORT = HERE / "maya_fcp.fcpxmld"
 SHA = {
-    MARKED: "30802ee3649d1afa9a02fe3827f7e902a9a0d98c439d8abc383eb08b9bb2fd20",
-    EXPORT / "Info.fcpxml": "4259c091981a84aaa985ee5557d0f8ea960f4ed563c33e680d8d2a9c805d87ff",
+    MARKED: "0bf5437a004679285e3b38d245e39d3e7e50bc539801b5cb28940a05717008cb",
+    EXPORT / "Info.fcpxml": "0a58df4a137d9a1d0adf626f4b0d405dbe6558cbcc33dfe380bce166962eb4b4",
 }
 
 
