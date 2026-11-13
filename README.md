@@ -1,6 +1,6 @@
 # Cut Review
 
-Final Cut review notes in as to-do markers. Two exports of the cut in, one page out: what changed, and which notes it touched.
+Client notes and Frame.io comments in as Final Cut Pro to-do markers. Then compare two FCPXML exports of the timeline on one page: what changed, and which notes the recut touched, whether you or an agent made the edit.
 
 ## What this is not
 
@@ -26,7 +26,7 @@ notes.txt ──► cutreview notes ──► cut_notes.fcpxml  (to-do markers o
 Two more commands work on any two exports, notes or not:
 
 - **`cutreview diff old.fcpxml new.fcpxml -o review.html`**: the change page. Every clip added, removed, trimmed, moved, retimed or adjusted, and every transition added or removed, with a strip of the timeline and before and after frames when the media is on this machine. A clip that only slid because something before it got shorter is counted and not listed.
-- **`cutreview blame old.fcpxml new.fcpxml`**: the same page, with each change attributed to the [fcp-mcp-server](https://github.com/DareDev256/fcpxml-mcp-server) tool call that made it, read from that server's write journal. A change the journal does not explain reads "not in the journal".
+- **`cutreview blame old.fcpxml new.fcpxml`**: the same page, with each change attributed to the [fcp-mcp-server](https://github.com/DareDev256/fcp-mcp-server) tool call that made it, read from that server's write journal. A change the journal does not explain reads "not in the journal".
 
 ![The status page at 390 wide](docs/screenshots/2026-11-12_status-390-dark-fold.png)
 
@@ -127,8 +127,10 @@ A note is touched when a change lies within one second (`--reach`) of the note's
 
 ## Credits
 
-Built on [fcp-mcp-server](https://github.com/DareDev256/fcpxml-mcp-server) (MIT), which supplies the FCPXML parser, the writer's element walker, the write journal and the DTD check. The fixtures `fixtures/music-video.fcpxml` and `fixtures/sample.fcpxml` come from its examples; its license is in `fixtures/LICENSE-fcp-mcp-server`.
+Built on [fcp-mcp-server](https://github.com/DareDev256/fcp-mcp-server) (MIT), which supplies the FCPXML parser, the writer's element walker, the write journal and the DTD check. The fixtures `fixtures/music-video.fcpxml` and `fixtures/sample.fcpxml` come from its examples; its license is in `fixtures/LICENSE-fcp-mcp-server`.
 
 ## License
 
 MIT. Copyright (c) 2026 James Olusoga (DareDev256).
+
+<!-- mcp-name: io.github.DareDev256/cutreview -->

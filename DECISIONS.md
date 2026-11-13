@@ -65,9 +65,11 @@ Not yet held, and named here so it stays open:
 
 ### 7. Finder: what does someone type into Google, and is it in the name or the first line?
 
-"frame.io comments to final cut markers", "compare two timelines", "Git for video editing" `[plan §3.4 A row 7]`. The package description says "Final Cut review notes in as to-do markers, the changed cut out as one page". The name `cutreview` holds "cut" and "review".
+"frame.io comments to final cut markers", "compare two timelines", "Git for video editing" `[plan §3.4 A row 7]`. The name `cutreview` holds "cut" and "review".
 
-**Pass**, to recheck at launch.
+Rechecked for the launch plan (2026-11-12), one phrase set per audience (`docs/launch.md` §1): editors with clients type "import frame.io comments into final cut pro"; people letting an agent edit type "compare two fcpxml files" or "what changed between two final cut timelines"; builders type "fcpxml diff" or "final cut pro mcp server". The README's first line now reads "Client notes and Frame.io comments in as Final Cut Pro to-do markers. Then compare two FCPXML exports of the timeline on one page: what changed, and which notes the recut touched, whether you or an agent made the edit." The package description carries the same phrases (see the log, 2026-11-12, launch metadata).
+
+**Pass.**
 
 ### 8. Proof: can ten seconds of real footage show it working?
 
@@ -106,3 +108,5 @@ More. Resolve 21.1 ships an MCP, Premiere's assistant has one due in early 2027,
 **2026-11-12. Frames are source frames.** Before and after frames come from the source media at the instant shown, labelled in HTML. Effects, titles and grades are not drawn, and the page says so. Media that cannot be read is named as offline; no placeholder image is drawn.
 
 **2026-11-12. The fixtures' second versions and journals are generated, not committed.** The journal records absolute paths, so `scripts/scenarios.py` rebuilds both rounds through `server.call_tool` on every test run (journal in the round's own folder, autopush and the index cache forced off).
+
+**2026-11-12. Launch metadata, proposed in `docs/launch.md` and applied on the launch day.** PyPI summary: "Client notes and Frame.io comments in as Final Cut Pro to-do markers. Compare two FCPXML exports: what changed, and which notes it touched." GitHub description: "Client notes and Frame.io comments in as Final Cut Pro to-do markers. Compare two FCPXML exports: what changed, and which notes the recut touched. CLI and MCP tool. No server, no upload." GitHub topics (16): final-cut-pro, finalcutpro, fcpx, fcpxml, fcpxml-diff, timeline-diff, frameio, video-review, client-feedback, markers, video-editing, post-production, mcp, mcp-server, model-context-protocol, python; `frameio` over `frame-io` because 11 repos use it against 2 (`gh api search/repositories?q=topic:<t>`, 2026-11-12). MCP registry name `io.github.DareDev256/cutreview`, description 91 of the registry's 100 characters, in `server.json`; the registry checks a PyPI package's ownership by the `mcp-name` line at the end of the README. If a real Frame.io V4 export has not been read correctly by launch day, "Frame.io" comes out of the GitHub description and the posts and stays only in the README with its caveat (`docs/launch.md` §7).

@@ -5,13 +5,13 @@ build-backend = "hatchling.build"
 [project]
 name = "cutreview"
 version = "0.1.0"
-description = "Final Cut review notes in as to-do markers, the changed cut out as one page: what changed, and which notes it touched."
+description = "Client notes and Frame.io comments in as Final Cut Pro to-do markers. Compare two FCPXML exports: what changed, and which notes it touched."
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "James Olusoga (DareDev256)" }]
 requires-python = ">=3.10"
-keywords = ["final-cut-pro", "fcpxml", "video-editing", "review", "markers", "timeline-diff"]
+keywords = ["final-cut-pro", "fcpxml", "frame-io", "client-notes", "video-review", "video-editing", "markers", "timeline-diff", "fcpxml-diff", "mcp"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: End Users/Desktop",
