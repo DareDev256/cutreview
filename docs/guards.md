@@ -6,7 +6,7 @@ Each guard below was broken once, on purpose, and a test had to go red. Rerun wi
 .venv/bin/python scripts/mutate.py
 ```
 
-The script edits one line of the source, runs the tests that claim to protect it, restores the file, and exits non-zero if any mutation survives. Last run 2026-11-12: all 17 caught.
+The script edits one line of the source, runs the tests that claim to protect it, restores the file, and exits non-zero if any mutation survives. Last run 2026-11-13: all 20 caught.
 
 | Guard broken on purpose | File | Result | First failing test |
 |---|---|---|---|
@@ -24,6 +24,9 @@ The script edits one line of the source, runs the tests that claim to protect it
 | a connected clip moves with its host | `changes.py` | caught | tests/test_changes.py::test_a_connected_clip_riding_a_rippled_host_only_slid |
 | a head trim is a trim, not a swap (one-to-one pairing) | `changes.py` | caught | tests/test_changes.py::test_a_head_trim_reads_as_a_trim_not_a_swap |
 | blame: work after the last journaled write is 'not in the journal' | `blame.py` | caught | tests/test_blame.py::test_journal_then_hand_on_the_same_material |
+| a source is its media, never its resource id (Final Cut renumbers ids) | `cut.py` | caught | tests/test_fcp_roundtrip.py::test_diff_is_exactly_one_trim |
+| a source's names are joined across both files (relinked media) | `changes.py` | caught | tests/test_fcp_roundtrip.py::test_a_relinked_file_still_matches_through_its_uid |
+| a missing start reads as zero | `cut.py` | caught | tests/test_fcp_roundtrip.py::test_diff_is_exactly_one_trim |
 | MCP: writes stay in the cut's folder | `mcp_server.py` | caught | tests/test_cli_mcp.py::test_mcp_refuses_writes_outside_the_cut_folder[/tmp/elsewhere.html-output must be inside] |
 | page: nothing loads from the network | `page.py` | caught | tests/test_page.py::test_pages_are_self_contained |
 | page: note text is escaped | `page.py` | caught | tests/test_page.py::test_note_text_is_escaped |
@@ -56,3 +59,7 @@ The first run let four mutations through, which is the point of running it:
 4. **"Changed again after the last journaled write"** had no test changing the same material by journal and by hand. Added one.
 
 It also found a fault in the mutation script itself: a same-length mutation (`all(` to `any(`) restored within the same second left Python running the stale bytecode of the mutant in later runs. The script now writes no bytecode and clears the caches after each restore.
+
+## What the first Final Cut round trip found
+
+The guards above were all green on 2026-11-12, and the first real Final Cut export still read as 16 changes with every note "removed with its clip" (docs/final-cut-proof.md, Result). No fixture had been through Final Cut, so no test could see that Final Cut renumbers resource ids and adds a `uid` to every asset. The real export is now a byte-for-byte fixture with its hash pinned, and three guards protect what it taught: a source is named by its media file and never by its resource id, a source's names are joined across both files (a relinked file still matches through its `uid`), and a missing `start` reads as zero.

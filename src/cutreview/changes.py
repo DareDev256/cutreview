@@ -234,6 +234,44 @@ def _pct(speed: Optional[Fraction]) -> str:
     return f"{float(speed if speed is not None else 1) * 100:.0f}%"
 
 
+_PRIORITY = {"src": 0, "uid": 1, "sig": 2}
+
+
+def unify_sources(old: Cut, new: Cut) -> None:
+    """Give every span in both cuts one key per source file, whatever it is called.
+
+    A span carries every identity its source has (media path, uid, sig). Two
+    identities on one span are the same source, so a file relinked between
+    exports still matches through its uid. Each group of identities is named
+    by its strongest member, so the key is the same in any comparison that
+    sees the same file. A resource id is never one of them.
+    """
+    parent: Dict[str, str] = {}
+
+    def find(x: str) -> str:
+        parent.setdefault(x, x)
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    spans = list(old.spans) + list(new.spans)
+    for s in spans:
+        ids = s.ids or (s.key,)
+        for other in ids[1:]:
+            parent[find(other)] = find(ids[0])
+        find(ids[0])
+    groups: Dict[str, List[str]] = {}
+    for token in list(parent):
+        groups.setdefault(find(token), []).append(token)
+    name = {
+        root: min(tokens, key=lambda t: (_PRIORITY.get(t.split(":", 1)[0], 9), t))
+        for root, tokens in groups.items()
+    }
+    for s in spans:
+        s.key = name[find((s.ids or (s.key,))[0])]
+
+
 def _transition_id(t: Transition, fd: Fraction) -> tuple:
     return (t.name, t.out_key, round(t.out_src / fd))
 
@@ -242,6 +280,7 @@ def compare(old: Cut, new: Cut) -> Review:
     """Every change from *old* to *new*, ordered by where it plays in *new*."""
     fd = new.frame_duration
     tol = fd / 2
+    unify_sources(old, new)
 
     def tc(t: Fraction, cut: Cut) -> str:
         return format_tc(t, cut.frame_duration, cut.tc_start)

@@ -71,7 +71,7 @@ def diff(old: str, new: str, output: Optional[str] = None, frames: bool = True) 
         written = _write(out, render_diff(review, grabber))
     counts = ", ".join(f"{v} {k}" for k, v in review.counts().items()) or "no changes"
     summary = "\n".join(
-        [f"{review.old.name} -> {review.new.name}: {len(review.changes)} changes ({counts})"]
+        [f"{review.old.name} -> {review.new.name}: {len(review.changes)} change{'' if len(review.changes) == 1 else 's'} ({counts})"]
         + _change_lines(review)
         + ([f"{review.slid} clips only slid with the ripple (not listed)"] if review.slid else [])
         + [f"Page: {written}"]
@@ -88,7 +88,7 @@ def blame(old: str, new: str, output: Optional[str] = None, journal: Optional[st
         grabber = FrameGrabber(Path(tmp), enabled=frames)
         written = _write(out, render_diff(review, grabber, blame=found))
     head = [
-        f"{review.old.name} -> {review.new.name}: {len(review.changes)} changes",
+        f"{review.old.name} -> {review.new.name}: {len(review.changes)} change{'' if len(review.changes) == 1 else 's'}",
         f"journal files: {', '.join(found.journals) or 'none found'}",
         f"journaled writes on the path: {len(found.steps)}"
         + ("" if found.reached else " (the chain does not reach the new file)"),

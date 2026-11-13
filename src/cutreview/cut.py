@@ -81,7 +81,7 @@ class Span:
     host: Optional[ET.Element] = field(repr=False, compare=False)
     tag: str
     name: str
-    key: str                      # what it plays: asset uid, else media src, else name
+    key: str                      # what it plays (see Span.ids); never the resource id
     asset_name: str
     lane: int                     # 0 is the primary storyline
     tl_in: Fraction
@@ -97,6 +97,10 @@ class Span:
     look: tuple = ()
     enabled: bool = True
     markers: List[MarkerRec] = field(default_factory=list)
+    # Every name the source goes by, strongest first: its media file, then
+    # Final Cut's uid and sig. Resource ids ("r2", "a3") are NOT identity:
+    # Final Cut renumbers them on every export.
+    ids: tuple = ()
 
     @property
     def duration(self) -> Fraction:
@@ -149,8 +153,12 @@ class Transition:
     tl_in: Fraction
     tl_out: Fraction
     cut: Fraction                 # the edit point it sits on
-    out_key: str = ""             # what plays before the cut
+    out_span: Optional[Span] = field(default=None, repr=False)   # what plays before the cut
     out_src: Fraction = Fraction(0)
+
+    @property
+    def out_key(self) -> str:
+        return self.out_span.key if self.out_span is not None else ""
 
 
 @dataclass
@@ -201,6 +209,14 @@ def _local_path(src: str) -> str:
     return ""
 
 
+def _media_token(src: str) -> str:
+    """One media file, however the URL is spelled (percent-encoding, file://)."""
+    u = urlparse(src)
+    if u.scheme in ("", "file"):
+        return "src:" + os.path.normpath(unquote(u.path))
+    return "src:" + src
+
+
 def _canon(el: ET.Element) -> tuple:
     return (el.tag, tuple(sorted(el.attrib.items())), tuple(_canon(c) for c in el))
 
@@ -217,26 +233,30 @@ class _Resources:
     def describe(self, ref: Optional[str]) -> dict:
         el = self.by_id.get(ref or "")
         if el is None:
-            return {"key": "", "name": "", "src": "", "origin": Fraction(0),
+            return {"ids": (), "name": "", "src": "", "origin": Fraction(0),
                     "still": False, "has_video": True}
         src = el.get("src", "")
         rep = el.find("media-rep")
         if rep is not None and rep.get("src"):
             src = rep.get("src")
         uid = el.get("uid", "")
+        sig = rep.get("sig", "") if rep is not None else ""
         name = el.get("name", "")
+        ids = []
+        if src:
+            ids.append(_media_token(src))
         if uid:
-            key = f"uid:{uid}"
-        elif src:
-            key = f"src:{src}"
-        else:
-            key = f"{el.tag}:{name or ref}"
+            ids.append(f"uid:{uid}")
+        if sig and sig != uid:
+            ids.append(f"sig:{sig}")
+        if not ids:                       # nothing better: the asset's name
+            ids.append(f"{el.tag}:{name}" if name else f"{el.tag}:?")
         fmt = self.by_id.get(el.get("format", ""))
         still = (
             el.tag == "asset" and el.get("duration", "") in ("0s", "0")
         ) or (fmt is not None and "RateUndefined" in fmt.get("name", ""))
         return {
-            "key": key, "name": name, "src": src,
+            "ids": tuple(ids), "name": name, "src": src,
             "origin": _t(el.get("start")), "still": still,
             "has_video": el.get("hasVideo", "1") != "0" if el.tag == "asset" else True,
         }
@@ -290,10 +310,11 @@ def load(path: str | Path) -> Cut:
             for tp in el.findall("timeMap/timept")
         )
         if el.tag == "title":
-            key = f"title:{el.get('name', '')}"
+            ids = (f"title:{el.get('name', '')}",)
             info["has_video"] = True
         else:
-            key = info["key"] or f"{el.tag}:{el.get('name', '')}"
+            ids = info["ids"] or (f"{el.tag}:{el.get('name', '')}",)
+        key = ids[0]
         span = Span(
             idx=len(spans), elem=el, host=host, tag=el.tag,
             name=el.get("name") or info["name"] or el.tag,
@@ -308,6 +329,7 @@ def load(path: str | Path) -> Cut:
                 if c.tag.startswith(_LOOK_PREFIXES) or c.tag in _LOOK_TAGS
             ),
             enabled=el.get("enabled", "1") != "0",
+            ids=ids,
         )
         if media is not el and el.tag in ("clip", "sync-clip"):
             # The wrapper's local clock maps onto the inner media's start.
@@ -339,8 +361,7 @@ def load(path: str | Path) -> Cut:
             cut_at = prev_end.tl_out if prev_end is not None else t_in + t_dur / 2
             transitions.append(Transition(
                 name=el.get("name", "Transition"), tl_in=t_in, tl_out=t_in + t_dur,
-                cut=cut_at,
-                out_key=prev_end.key if prev_end is not None else "",
+                cut=cut_at, out_span=prev_end,
                 out_src=prev_end.src_out if prev_end is not None else Fraction(0),
             ))
             continue
