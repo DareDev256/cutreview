@@ -1,0 +1,9 @@
+Team,Project,File,File URL,Version,Commenter,Comment ID,Comment,Reply,Commented At,Complete,Annotation,Frame,Duration,Timecode,Timecode In,Timecode Out,Timecode Source,Timecode Source In,Timecode Source Out
+Sample Team,Music Video Edit,sample_v1.mp4,https://example.invalid/review,1,Dana,c1,"Love this take, keep it",,2026-11-10T15:01:00Z,false,,24,0,00:00:01:00,00:00:01:00,00:00:01:00,01:00:01:00,01:00:01:00,01:00:01:00
+Sample Team,Music Video Edit,sample_v1.mp4,https://example.invalid/review,1,Dana,c2,"City shot runs long, trim it",,2026-11-10T15:02:00Z,false,,96,0,00:00:04:00,00:00:04:00,00:00:04:00,01:00:04:00,01:00:04:00,01:00:04:00
+Sample Team,Music Video Edit,sample_v1.mp4,https://example.invalid/review,1,Sam,c3,Is that a flash frame?,,2026-11-10T15:03:00Z,false,,219,0,00:00:09:03,00:00:09:03,00:00:09:03,01:00:09:03,01:00:09:03,01:00:09:03
+Sample Team,Music Video Edit,sample_v1.mp4,https://example.invalid/review,1,Sam,c4,Ending feels abrupt,,2026-11-10T15:04:00Z,false,,1272,0,00:00:53:00,00:00:53:00,00:00:53:00,01:00:53:00,01:00:53:00,01:00:53:00
+Sample Team,Music Video Edit,sample_v1.mp4,https://example.invalid/review,1,Dana,c5,,"Agreed, a dissolve would help",2026-11-10T15:05:00Z,false,,,,,,,,,
+Sample Team,Music Video Edit,sample_v1.mp4,https://example.invalid/review,1,Sam,c6,Music is a touch loud overall,,2026-11-10T15:06:00Z,false,,,,,,,,,
+Sample Team,Music Video Edit,sample_v1.mp4,https://example.invalid/review,1,Dana,c7,Name super is misspelled,,2026-11-10T15:07:00Z,false,,,,,00:00:6O:00,00:00:6O:00,,,,,
+Sample Team,Music Video Edit,sample_v1.mp4,https://example.invalid/review,1,Dana,c8,Logo needs to be bigger,,2026-11-10T15:08:00Z,true,arrow,720,0,00:00:30:00,00:00:30:00,00:00:30:00,01:00:30:00,01:00:30:00,01:00:30:00

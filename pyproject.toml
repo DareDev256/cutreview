@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cutreview"
+version = "0.1.0"
+description = "Final Cut review notes in as to-do markers, the changed cut out as one page: what changed, and which notes it touched."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "James Olusoga (DareDev256)" }]
+requires-python = ">=3.10"
+keywords = ["final-cut-pro", "fcpxml", "video-editing", "review", "markers", "timeline-diff"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: End Users/Desktop",
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3",
+    "Topic :: Multimedia :: Video",
+]
+dependencies = [
+    "fcp-mcp-server==0.30.0",
+    "mcp>=1.21.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+cutreview = "cutreview.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cutreview"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "tests", "fixtures", "scripts", "README.md", "LICENSE", "CHANGELOG.md", "DECISIONS.md", "docs/final-cut-proof.md"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 160
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]
+
+[tool.ruff.lint.per-file-ignores]
+# CSS and HTML templates, mutation strings that must match the source exactly, inline FCPXML.
+"src/cutreview/page.py" = ["E501"]
+"scripts/mutate.py" = ["E501"]
+"tests/*.py" = ["E501"]
